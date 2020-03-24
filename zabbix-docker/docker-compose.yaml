@@ -1,7 +1,8 @@
 version: '2'
 services:
  zabbix-server:
-  image: zabbix/zabbix-server-mysql:alpine-3.4-latest
+  image: zabbix/zabbix-server-mysql:alpine-4.4-latest
+  container_name: zabbix-server
   ports:
    - "10051:10051"
   volumes:
@@ -29,9 +30,10 @@ services:
    - .env_srv
 
  zabbix-web-nginx-mysql:
-  image: zabbix/zabbix-web-nginx-mysql:alpine-3.4-latest
+  image: zabbix/zabbix-web-nginx-mysql:alpine-4.4-latest
+  container_name: zabbix-web-nginx-mysql
   ports:
-   - "8081:80"
+   - "8888:80"
    - "8443:443"
   links:
    - mysql-server:mysql-server
@@ -47,7 +49,8 @@ services:
    - .env_web
 
  zabbix-agent:
-  image: zabbix/zabbix-agent:alpine-3.4-latest
+  image: zabbix/zabbix-agent:alpine-4.4-latest
+  container_name: zabbix-agent
   ports:
    - "10050:10050"
   volumes:
@@ -65,14 +68,16 @@ services:
   pid: "host"
 
  zabbix-java-gateway:
-   image: zabbix/zabbix-java-gateway:alpine-3.4-latest
+   image: zabbix/zabbix-java-gateway:alpine-4.4-latest
+   container_name: zabbix-java-gateway
    ports:
     - "10052:10052"
    env_file:
     - .env_java
  
  zabbix-snmptraps:
-   image: zabbix/zabbix-snmptraps:alpine-3.4-latest
+   image: zabbix/zabbix-snmptraps:alpine-4.4-latest
+   container_name: zabbix-snmptraps
    ports:
     - "162:162/udp"
    volumes:
@@ -80,6 +85,7 @@ services:
 
  mysql-server:
   image: mysql:5.7
+  container_name: mysql-server
   command: [mysqld, --character-set-server=utf8, --collation-server=utf8_bin]
   volumes_from:
     - db_data_mysql
@@ -89,5 +95,6 @@ services:
 
  db_data_mysql:
     image: busybox
+    container_name: db_data_mysql
     volumes:
     - ./zbx_env/var/lib/mysql:/var/lib/mysql:rw
