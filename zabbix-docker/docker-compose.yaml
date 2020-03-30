@@ -43,7 +43,7 @@ services:
    - /etc/localtime:/etc/localtime:ro
    - /etc/timezone:/etc/timezone:ro
    - ./zbx_env/etc/ssl/nginx:/etc/ssl/nginx:ro
-   - ./simkai.ttf:/usr/share/zabbix/fonts/graphfont.ttf:ro
+   - ./fonts/simkai.ttf:/usr/share/zabbix/assets/fonts/DejaVuSans.ttf:ro
   env_file:
    - .env_db_mysql
    - .env_web
